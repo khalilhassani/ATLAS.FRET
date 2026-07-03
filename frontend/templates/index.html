@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AtlasFret Intelligence — Tableau de Bord Opérationnel</title>
+    <!-- Google Font Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Vis.js for Network Graph rendering -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <!-- Left: Brand Title & AtlasFret Custom Logo -->
+        <div class="brand">
+            <div class="brand-logo-container" style="background: none; box-shadow: none; width: auto; height: auto;">
+                <!-- Professional Platform Logo for AtlasFret -->
+                <svg viewBox="0 0 100 100" style="height: 48px; width: 48px; filter: drop-shadow(2px 3px 5px rgba(0,32,96,0.15));">
+                    <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="#002060" />
+                    <polygon points="50,10 85,28 85,72 50,90 15,72 15,28" fill="#FFFFFF" />
+                    <!-- Logistics Green Arrow -->
+                    <path d="M35,65 L55,45 L50,40 L70,40 L70,60 L65,55 Z" fill="#046A38" />
+                    <circle cx="35" cy="65" r="5" fill="#002060" />
+                    <circle cx="70" cy="40" r="5" fill="#046A38" />
+                </svg>
+            </div>
+            <div>
+                <h1 style="color: var(--color-cobalt); font-size: 1.4rem;">AtlasFret <span style="color: var(--color-emerald);">Intelligence</span></h1>
+                <p>لوحة التحكم العملية • Operational Dashboard</p>
+            </div>
+        </div>
+        
+        <!-- Center: Detailed Royal Crest of Morocco -->
+        <div class="royal-crest-center">
+            <img src="/static/royal_crest_morocco.png" alt="Armoiries du Royaume du Maroc" style="height: 65px; filter: drop-shadow(2px 3px 5px rgba(0,0,0,0.1));" />
+        </div>
+        
+        <!-- Right: ONCF Logo & Arabic Text -->
+        <div class="oncf-header-right">
+            <div class="arabic-title">
+                <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--color-cobalt); font-family: 'Outfit';">المكتب الوطني للسكك الحديدية</h2>
+                <p>أطلس فريت لوجستيك • ONCF Multimodal</p>
+            </div>
+            <div class="oncf-logo-container">
+                <img src="/static/oncf_logo.jpg" alt="ONCF Logo" style="height: 38px; border-radius: 4px;" />
+            </div>
+        </div>
+    </header>
+
+    <!-- 3D Query Input / Search Bar -->
+    <div class="search-exec-bar">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="query-input" placeholder="Saisir ou coller une alerte ONCF..." />
+        </div>
+        <button id="btn-submit" class="btn btn-primary" onclick="submitQuery()">
+            <span id="spinner" class="spinner hidden"><i class="fa-solid fa-spinner fa-spin"></i></span>
+            <i class="fa-solid fa-paper-plane"></i> Exécuter LangGraph Pipeline
+        </button>
+    </div>
+
+    <!-- Main Grid Dashboard -->
+    <main class="dashboard-grid">
+        
+        <!-- Column 1: Left Widgets -->
+        <div class="col-side">
+            <!-- Active Alerts Widget -->
+            <div class="widget-alerts-3d">
+                <div class="alerts-title"><i class="fa-solid fa-triangle-exclamation"></i> ALERTES ACTIVES</div>
+                <div class="alerts-number">1</div>
+                <p style="font-size: 0.72rem; opacity: 0.9;">Axe interrompu sur réseau national</p>
+            </div>
+            
+            <!-- Shipment Status Widget -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-chart-column"></i> Statut des Expéditions</div>
+                <div class="chart-container-3d">
+                    <div class="bar-wrapper">
+                        <div class="bar-3d-pillar transit"></div>
+                        <span class="chart-label">Transit ONCF</span>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar-3d-pillar reroute"></div>
+                        <span class="chart-label">Déroutement</span>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar-3d-pillar delivered"></div>
+                        <span class="chart-label">Livraison</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Simulator Scenarios -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-microchip"></i> Simulateur de Scénarios ONCF</div>
+                <div class="scenarios-grid">
+                    <button class="btn-scenario" onclick="loadScenario('nominal')">
+                        <div class="sc-title"><i class="fa-solid fa-check-circle" style="color: var(--color-emerald);"></i> 1. Cas Sain (Frais)</div>
+                        <div class="sc-desc">Panne Fès-Oujda, conteneur poissons (12t, frigo requis).</div>
+                    </button>
+                    <button class="btn-scenario" onclick="loadScenario('chemical')">
+                        <div class="sc-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--color-orange);"></i> 2. Produits Chimiques</div>
+                        <div class="sc-desc">Tanger-Kenitra bloqué, Acide Nitrique toxique (15t).</div>
+                    </button>
+                    <button class="btn-scenario" onclick="loadScenario('injection')">
+                        <div class="sc-title"><i class="fa-solid fa-bug" style="color: var(--color-red);"></i> 3. Prompt Injection</div>
+                        <div class="sc-desc">Attaque système ciblant le seuil Obsidian.</div>
+                    </button>
+                    <button class="btn-scenario" onclick="loadScenario('unauthorized')">
+                        <div class="sc-title"><i class="fa-solid fa-ban" style="color: #8B5CF6;"></i> 4. Transporteur Non-Conforme</div>
+                        <div class="sc-desc">Fret vers Oujda, transporteur en défaut CNSS (Loi 16-99).</div>
+                    </button>
+                    <button class="btn-scenario" onclick="loadScenario('flood')">
+                        <div class="sc-title"><i class="fa-solid fa-cloud-showers-heavy" style="color: #3B82F6;"></i> 5. Inondation Fès-Taza</div>
+                        <div class="sc-desc">Voies submergées, ciment standard (45t) vers Oujda.</div>
+                    </button>
+                    <button class="btn-scenario" onclick="loadScenario('budget')">
+                        <div class="sc-title"><i class="fa-solid fa-circle-dollar-to-slot" style="color: #10B981;"></i> 6. Blocage Casa (Budget S_max)</div>
+                        <div class="sc-desc">Reroutage lourd (85t, coût > 15 000 MAD) vers Marrakech.</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Column 2: Center Maps & Graphs -->
+        <div class="col-center">
+            <div class="center-panels-split">
+                <!-- 3D Physical Map of Morocco (Complete with Sahara) -->
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-map-location-dot"></i> 3D Physical Map du Morocco : ONCF</div>
+                    <div class="viz-container" style="background: url('/static/map_morocco_sahara.jpg') no-repeat center !important; background-size: cover !important; position: relative;">
+                        <!-- Stylized SVG Map of Morocco ONCF Network including Moroccan Sahara -->
+                        <svg class="map-svg-element" viewBox="0 0 260 350" style="background: transparent; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                            
+                            <!-- Rail Tracks Routes -->
+                            <!-- Tanger Med -> Kenitra -> Casa (Blue) -->
+                            <path class="rail-line-route blue" d="M158,43 L142,65 L120,100" />
+                            <!-- Casa -> Marrakech (Green) -->
+                            <path class="rail-line-route green" d="M120,100 L108,170" />
+                            <!-- Kenitra -> Fès (Green/Break) -->
+                            <path class="rail-line-route green" d="M142,65 L170,95" />
+                            <!-- Fès -> Oujda (Green) -->
+                            <path class="rail-line-route green" d="M170,95 L215,75" />
+                            
+                            <!-- Dotted Southern routes linking Sahara Hubs (Laâyoune, Dakhla) -->
+                            <path d="M108,170 L75,255 L58,305" fill="none" stroke="var(--color-silver)" stroke-width="1.5" stroke-dasharray="3 3" />
+                            
+                            <!-- Rupture Alert blinking circle Kenitra-Fès -->
+                            <circle cx="156" cy="80" r="6" fill="#E53E3E" opacity="0.6"/>
+                            <circle class="flashing-rupture" cx="156" cy="80" r="8" />
+                            
+                            <!-- City Node markers -->
+                            <circle class="map-city-node" cx="158" cy="43" r="4.5" id="node-tanger" title="Tanger Med"/>
+                            <circle class="map-city-node" cx="142" cy="65" r="4.5" id="node-kenitra" title="Kénitra"/>
+                            <circle class="map-city-node" cx="138" cy="75" r="3.5" id="node-sale" title="Salé"/>
+                            <circle class="map-city-node" cx="120" cy="100" r="4.5" id="node-casa" title="Casablanca"/>
+                            <circle class="map-city-node" cx="170" cy="95" r="4.5" id="node-fes" title="Fès"/>
+                            <circle class="map-city-node" cx="215" cy="75" r="4.5" id="node-oujda" title="Oujda"/>
+                            <circle class="map-city-node" cx="108" cy="170" r="4.5" id="node-marrakech" title="Marrakech"/>
+                            <!-- Sahara Hub Nodes -->
+                            <circle class="map-city-node" cx="75" cy="255" r="4.5" id="node-laayoune" title="Laâyoune"/>
+                            <circle class="map-city-node" cx="58" cy="305" r="4.5" id="node-dakhla" title="Dakhla"/>
+                            
+                            <!-- City Labels -->
+                            <text x="164" y="40" class="map-label">Tanger Med</text>
+                            <text x="110" y="65" class="map-label">Kénitra</text>
+                            <text x="114" y="80" class="map-label">Salé</text>
+                            <text x="75" y="103" class="map-label">Casablanca</text>
+                            <text x="175" y="102" class="map-label">Fès</text>
+                            <text x="220" y="72" class="map-label">Oujda</text>
+                            <text x="68" y="174" class="map-label">Marrakech</text>
+                            <text x="82" y="259" class="map-label">Laâyoune</text>
+                            <text x="66" y="309" class="map-label">Dakhla</text>
+                            
+                            <!-- Map Legend -->
+                            <rect x="145" y="270" width="110" height="75" fill="#FFFFFF" rx="8" stroke="#D1D9E6" stroke-width="1"/>
+                            <line x1="155" y1="285" x2="180" y2="285" stroke="#A0AEC0" stroke-width="2"/>
+                            <text x="187" y="288" font-family="'Outfit'" font-size="8" fill="#718096" font-weight="700">Existants</text>
+                            
+                            <line x1="155" y1="298" x2="180" y2="298" stroke="var(--color-cobalt)" stroke-width="2.5"/>
+                            <text x="187" y="301" font-family="'Outfit'" font-size="8" fill="#002060" font-weight="700">Ligne ONCF</text>
+                            
+                            <line x1="155" y1="311" x2="180" y2="311" stroke="var(--color-emerald)" stroke-width="2.5"/>
+                            <text x="187" y="314" font-family="'Outfit'" font-size="8" fill="#046A38" font-weight="700">Train Lines</text>
+                            
+                            <circle cx="160" cy="326" r="3.5" fill="#E53E3E"/>
+                            <text x="187" y="329" font-family="'Outfit'" font-size="8" fill="#E53E3E" font-weight="700">Rupture</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- 3D Multi-Hop Graph (Vis.js container) -->
+                <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-diagram-project"></i> 3D Multi-Hop Graph</div>
+                    <div id="graph-container" class="viz-container">
+                        <div class="viz-loading"><i class="fa-solid fa-spinner fa-spin"></i> Chargement...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline Process Workflow -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-timeline"></i> Simplifier 3D Timeline : Por Secure Multi-Stage Workflow</div>
+                <div class="timeline-flex-3d" id="timeline-flow-nodes">
+                    <div class="timeline-node-3d completed" id="step-node-1">
+                        <div class="t-dot-3d">1</div>
+                        <span class="t-label-3d">Alerte ONCF</span>
+                        <div class="timeline-connector-line"></div>
+                    </div>
+                    <div class="timeline-node-3d" id="step-node-2">
+                        <div class="t-dot-3d">2</div>
+                        <span class="t-label-3d">Analyse LangGraph</span>
+                        <div class="timeline-connector-line"></div>
+                    </div>
+                    <div class="timeline-node-3d" id="step-node-3">
+                        <div class="t-dot-3d">3</div>
+                        <span class="t-label-3d">Audit SkillSpector</span>
+                        <div class="timeline-connector-line"></div>
+                    </div>
+                    <div class="timeline-node-3d" id="step-node-4">
+                        <div class="t-dot-3d">4</div>
+                        <span class="t-label-3d">Oversight Obsidian</span>
+                        <div class="timeline-connector-line"></div>
+                    </div>
+                    <div class="timeline-node-3d" id="step-node-5">
+                        <div class="t-dot-3d"><i class="fa-solid fa-lock"></i></div>
+                        <span class="t-label-3d">HITL Validation</span>
+                        <div class="timeline-connector-line"></div>
+                    </div>
+                    <div class="timeline-node-3d" id="step-node-6">
+                        <div class="t-dot-3d"><i class="fa-solid fa-flag"></i></div>
+                        <span class="t-label-3d">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Column 3: Right Widgets -->
+        <div class="col-side">
+            <!-- SkillSpector Score Card -->
+            <div class="widget-skillspector-3d">
+                <div class="ss-left">
+                    <h4>SKILLSPECTOR</h4>
+                    <p>Filtres LLM / RAG Conformité</p>
+                </div>
+                <div class="ss-score" id="skillspector-score-lbl">98/100</div>
+            </div>
+            
+            <!-- SkillSpector Audit Details Checklist -->
+            <div class="panel" style="margin-top: 10px; padding: 10px;">
+                <div class="panel-title" style="font-size: 0.78rem; padding-bottom: 6px;"><i class="fa-solid fa-clipboard-check"></i> SkillSpector Audit Details</div>
+                <div class="compliance-checklist" id="skillspector-alerts-box" style="display: flex; flex-direction: column; gap: 6px;">
+                    <div class="comp-item" id="audit-safety" style="font-size: 0.72rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-emerald);"></i> <span>Sécurité : Aucun PII / Injection</span>
+                    </div>
+                    <div class="comp-item" id="audit-fleet" style="font-size: 0.72rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-emerald);"></i> <span>Flotte : Compatibilité standard</span>
+                    </div>
+                    <div class="comp-item" id="audit-legal" style="font-size: 0.72rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-emerald);"></i> <span>Légal : CNSS Conforme (Loi 16-99)</span>
+                    </div>
+                    <div class="comp-item" id="audit-budget" style="font-size: 0.72rem; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
+                        <i class="fa-solid fa-circle-check" style="color: var(--color-emerald);"></i> <span>Financier : Coût sous le seuil S_max</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Validation HITL Desk -->
+            <div class="panel" style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="panel-title"><i class="fa-solid fa-user-shield"></i> Validation HITL Requise</div>
+                <div class="widget-hitl-box" id="hitl-panel">
+                    <div class="hitl-alert-title">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>En attente de signature</span>
+                    </div>
+                    <div class="hitl-reason-text" id="hitl-reason-box">Aucune validation en attente.</div>
+                    
+                    <div class="signature-form" style="display: flex; flex-direction: column; gap: 5px;">
+                        <input type="text" id="hitl-sig-input" class="signature-input-3d" placeholder="Signature (ex: AUTH-SECURE-ONCF-099)" />
+                        <div class="hitl-actions">
+                            <button class="btn-escrow-3d" onclick="approveHitl()">Débloquer Escrow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Documents scanés Checklist -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-folder-open"></i> Documents Scanés (OCR)</div>
+                <div class="ocr-grid">
+                    <div class="ocr-card">
+                        <i class="fa-solid fa-id-card"></i>
+                        <h5>CIN</h5>
+                        <span id="ocr-cin-lbl">Valide</span>
+                    </div>
+                    <div class="ocr-card">
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <h5>Patente</h5>
+                        <span id="ocr-patente-lbl">Valide</span>
+                    </div>
+                    <div class="ocr-card">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        <h5>CNSS</h5>
+                        <span id="ocr-cnss-lbl">OK</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Obsidian Audit Logs -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-shield-halved"></i> Obsidian Audit Logs</div>
+                <div class="obsidian-log-scroller" id="obsidian-log-list">
+                    <div class="obsidian-log-line">Obsidian audit 1: سجل تدقيق أوبسيديان جاهز...</div>
+                </div>
+            </div>
+            
+            <!-- Settings Box -->
+            <div class="panel">
+                <div class="panel-title"><i class="fa-solid fa-sliders"></i> Configuration Obsidian</div>
+                <div class="settings-grid-3d">
+                    <div class="settings-input-group">
+                        <label for="cfg-seuil">Seuil Obsidien :</label>
+                        <input type="number" id="cfg-seuil" step="0.05" min="0.1" max="1" value="0.7">
+                    </div>
+                    <div class="settings-input-group">
+                        <label for="cfg-smax">Seuil S_max Coût :</label>
+                        <input type="number" id="cfg-smax" step="500" value="15000">
+                    </div>
+                    <div class="settings-input-group" style="margin-top: 4px;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="cfg-maintenance" onchange="toggleMaintenanceMode(this)">
+                            <span class="slider"></span>
+                            <span class="toggle-label">Mode Maintenance</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="saveSettings()">Sauvegarder</button>
+            </div>
+            
+            <!-- Runbook emergency controls -->
+            <div class="panel" style="padding: 10px;">
+                <div class="panel-title" style="font-size: 0.8rem; padding-bottom: 4px;"><i class="fa-solid fa-toolbox"></i> Runbook Urgence</div>
+                <div class="runbook-buttons">
+                    <button class="btn btn-secondary btn-sm" onclick="runIntegrityCheck()">Intégrité</button>
+                    <button class="btn btn-danger btn-sm" onclick="runEmergencyPurge()">Purge</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for JSON payloads -->
+    <div id="json-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-code"></i> Fichier JSON de Sortie Validé (100% Strict)</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <pre><code id="json-code-box" class="fira-font">{}</code></pre>
+        </div>
+    </div>
+
+    <!-- Script imports -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database files (Local SQLite and Chroma DB vector cache)
+atlasfret.db
+chroma_db/
+
+# Private secrets configuration (Do not push!)
+config_db.json
+
+# IDE settings
+.vscode/
+.idea/
+.gemini/
+.agents/
+*.log

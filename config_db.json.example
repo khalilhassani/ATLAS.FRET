@@ -1,0 +1,10 @@
+{
+  "endpoint": "https://YOUR-ASTRA-DB-ID-us-east-2.apps.astra.datastax.com",
+  "token": "AstraCS:YOUR_TOKEN_HERE",
+  "keyspace": "default_keyspace",
+  "seuil_obsidien": 0.70,
+  "s_max_cost": 15000.0,
+  "groq_api_key": "",
+  "gemini_api_key": "",
+  "openai_api_key": ""
+}

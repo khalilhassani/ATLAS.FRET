@@ -1,0 +1,748 @@
+/* ATLASFret Intelligence - Neumorphic & Skeuomorphic 3D Light Mode CSS */
+
+:root {
+    --bg-color: #F0F2F6;
+    --card-bg: #FFFFFF;
+    --border-color: #E2E8F0;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    
+    /* Moroccan & ONCF Color Accents */
+    --color-emerald: #046A38; /* Royal Moroccan Green */
+    --color-cobalt: #002060;  /* ONCF Official Dark Blue */
+    --color-gold: #D4AF37;    /* Crown Gold */
+    --color-silver: #A0AEC0;
+    --color-orange: #ED8936;
+    --color-red: #E53E3E;
+    
+    /* 3D Skeuomorphic Shadows */
+    --shadow-raised: 6px 6px 16px #D1D9E6, -6px -6px 16px #FFFFFF;
+    --shadow-sunken: inset 3px 3px 6px #D1D9E6, inset -3px -3px 6px #FFFFFF;
+    --shadow-widget-red: 0 10px 20px rgba(229, 62, 62, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    --shadow-btn-green: 0 10px 20px rgba(4, 106, 56, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.4;
+    padding: 15px;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cobalt);
+}
+
+/* Header Grid / Brand */
+.navbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 15px 25px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-raised);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-logo-container {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: var(--color-emerald);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(4, 106, 56, 0.3);
+}
+
+.brand-logo-container i {
+    font-size: 1.5rem;
+    color: #FFFFFF;
+}
+
+.brand h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-cobalt);
+}
+
+.brand p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Royal Moroccan Crest in the center */
+.royal-crest-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.crest-svg {
+    height: 55px;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+}
+
+/* ONCF logo & Arabic title at right */
+.oncf-header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.arabic-title {
+    text-align: right;
+}
+
+.arabic-title h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-cobalt);
+}
+
+.arabic-title p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.oncf-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* 3D Search & Execution Bar below Header */
+.search-exec-bar {
+    display: flex;
+    gap: 15px;
+    background: var(--card-bg);
+    padding: 10px 15px;
+    border-radius: 14px;
+    box-shadow: var(--shadow-raised);
+    margin-bottom: 15px;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.search-input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border-radius: 10px;
+    border: none;
+    background: var(--bg-color);
+    box-shadow: var(--shadow-sunken);
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    color: var(--text-primary);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-cobalt), #1D4ED8);
+    color: #FFFFFF;
+    padding: 0 25px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 32, 96, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 32, 96, 0.3);
+}
+
+/* Grid Layout structure */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 290px 1fr 310px;
+    gap: 15px;
+}
+
+/* Column Flex Containers */
+.col-side {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.col-center {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 3D Skeuomorphic Panels */
+.panel {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: var(--shadow-raised);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-cobalt);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Active Alerts 3D widget */
+.widget-alerts-3d {
+    background: linear-gradient(135deg, #FF5B5B, #D32F2F);
+    border-radius: 14px;
+    padding: 15px;
+    text-align: center;
+    color: #FFFFFF;
+    box-shadow: var(--shadow-widget-red);
+    position: relative;
+    overflow: hidden;
+}
+
+.widget-alerts-3d:before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+}
+
+.alerts-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.alerts-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin: 5px 0;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+}
+
+/* 3D CSS Bar Chart */
+.chart-container-3d {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 160px;
+    padding: 15px 5px 10px 5px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sunken);
+}
+
+.bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.bar-3d-pillar {
+    width: 28px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(500px) rotateX(10deg);
+    box-shadow: 4px 0 8px rgba(0,0,0,0.1);
+}
+
+.bar-3d-pillar.transit {
+    height: 60px;
+    background: linear-gradient(to top, #1E4ED8, #3B82F6);
+}
+
+.bar-3d-pillar.reroute {
+    height: 100px;
+    background: linear-gradient(to top, #B87333, var(--color-gold));
+}
+
+.bar-3d-pillar.delivered {
+    height: 140px;
+    background: linear-gradient(to top, var(--color-emerald), #10B981);
+}
+
+.chart-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Quick Scenarios Box */
+.scenarios-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.btn-scenario {
+    background: var(--bg-color);
+    box-shadow: var(--shadow-raised);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.btn-scenario:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-gold);
+}
+
+.sc-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-cobalt);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sc-desc {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Map & Graph Panels Split (Center Column) */
+.center-panels-split {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 15px;
+}
+
+.viz-container {
+    height: 380px;
+    background: var(--bg-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sunken);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Stylized Interactive SVG Map */
+.map-svg-element {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.map-land {
+    fill: #FAFAFB;
+    stroke: #D1D9E6;
+    stroke-width: 1.5;
+}
+
+.rail-line-route {
+    fill: none;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+}
+
+.rail-line-route.blue {
+    stroke: var(--color-cobalt);
+}
+
+.rail-line-route.green {
+    stroke: var(--color-emerald);
+}
+
+.map-city-node {
+    fill: #FFFFFF;
+    stroke: var(--color-cobalt);
+    stroke-width: 2.5;
+    cursor: pointer;
+}
+
+.map-city-node:hover {
+    fill: var(--color-gold);
+}
+
+.map-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    fill: var(--text-primary);
+}
+
+/* Red flashing break indicator */
+.flashing-rupture {
+    fill: var(--color-red);
+    opacity: 0.8;
+    animation: flashBreak 1.2s infinite;
+}
+
+@keyframes flashBreak {
+    0% { r: 5; opacity: 1; }
+    100% { r: 20; opacity: 0; }
+}
+
+/* SkillSpector Orange Widget */
+.widget-skillspector-3d {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    border-radius: 12px;
+    padding: 12px;
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ss-left h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.ss-left p {
+    font-size: 0.7rem;
+    opacity: 0.9;
+}
+
+.ss-score {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* HITL Validation widget card */
+.widget-hitl-box {
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    box-shadow: var(--shadow-sunken);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hitl-alert-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-red);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hitl-reason-text {
+    font-size: 0.72rem;
+    color: var(--text-primary);
+    background: #FFFFFF;
+    padding: 8px;
+    border-radius: 6px;
+    border-left: 3px solid var(--color-orange);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.signature-input-3d {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-family: inherit;
+    font-size: 0.78rem;
+    outline: none;
+    box-shadow: var(--shadow-sunken);
+}
+
+.hitl-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-escrow-3d {
+    flex: 1;
+    background: linear-gradient(to bottom, #10B981, var(--color-emerald));
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 0;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-btn-green);
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-escrow-3d:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+/* OCR Docs checklist */
+.ocr-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.ocr-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    box-shadow: var(--shadow-raised);
+    border: 1px solid var(--border-color);
+}
+
+.ocr-card i {
+    font-size: 1.2rem;
+    color: var(--color-cobalt);
+    margin-bottom: 4px;
+}
+
+.ocr-card h5 {
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.ocr-card span {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--color-emerald);
+}
+
+/* 3D Timeline Flow (Bottom section) */
+.timeline-flex-3d {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sunken);
+    margin-top: 5px;
+}
+
+.timeline-node-3d {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    flex: 1;
+}
+
+.t-dot-3d {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-silver);
+    box-shadow: var(--shadow-raised);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+    color: white;
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+.timeline-node-3d.completed .t-dot-3d {
+    background: var(--color-emerald);
+    box-shadow: 0 0 10px rgba(4, 106, 56, 0.4);
+}
+
+.timeline-node-3d.pending .t-dot-3d {
+    background: var(--color-orange);
+    box-shadow: 0 0 10px rgba(237, 137, 54, 0.4);
+}
+
+.t-label-3d {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.timeline-node-3d.completed .t-label-3d {
+    color: var(--color-emerald);
+}
+
+.timeline-node-3d.pending .t-label-3d {
+    color: var(--color-orange);
+}
+
+.timeline-connector-line {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    right: -50%;
+    height: 3px;
+    background: var(--border-color);
+    z-index: 1;
+}
+
+.timeline-node-3d:last-child .timeline-connector-line {
+    display: none;
+}
+
+/* Obsidian Logs widget */
+.obsidian-log-scroller {
+    max-height: 120px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.obsidian-log-line {
+    background: var(--bg-color);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+    border-left: 2px solid var(--color-cobalt);
+    color: var(--text-primary);
+}
+
+/* Settings Box */
+.settings-grid-3d {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-input-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.settings-input-group label {
+    font-weight: 600;
+}
+
+.settings-input-group input {
+    width: 80px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    font-family: inherit;
+    text-align: right;
+    box-shadow: var(--shadow-sunken);
+}
+
+/* Modal Popup styling */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    width: 600px;
+    max-width: 90%;
+    box-shadow: var(--shadow-raised);
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    color: var(--color-cobalt);
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.fira-font {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    background: var(--bg-color);
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
